@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ConnectImporter (beta)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="O.Yuanying">
+    <meta property="og:site_name" content="ConnectImporter powered by 3machinae" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="<%= url('/')%>" />
+
+    <!-- Le styles -->
+    <link href="<%= url("/css/bootstrap.css")%>" rel="stylesheet">
+    <link href="<%= url("/css/bootstrap-responsive.css")%>" rel="stylesheet">
+    <link href="<%= url("/css/application.css")%>" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="<%= url("/js/jquery-1.7.2.min.js")%>"></script>
+    <script src="<%= url("/js/jquery.socialbutton-1.8.1.js")%>"></script>
+    <% if @user && @user.garmin_id %>
+    <script type='text/javascript'>
+    $(function() {
+      $('#public_activities').load('<%=url('/public_activities')%>');
+    });
+    </script>
+    <% end %>
+    <script>
+    $(function() {
+
+      $('#google_plusone').socialbutton('google_plusone', {
+        size: 'medium',
+        count: true
+      });
+
+      $('#hatena').socialbutton('hatena');
+
+      $('#twitter').socialbutton('twitter', {
+        button: 'none'
+      });
+
+      $('#facebook_like').socialbutton('facebook_like', {
+        button: 'button_count'
+      });
+
+      $('#facebook_share').socialbutton('facebook_share');
+
+    });
+    </script>
+  </head>
+  
+  <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="<%=url('/')%>">ConnectImporter</a>
+        </div>
+      </div>
+    </div>
+
+    <div class='container'>
+      <div class='row'>
+        <div class='span8 offset2'>
+          <% if flash[:notice] %>
+          <div class="alert alert-success">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            <h4 class="alert-heading">Well done!</h4>
+              <%= flash[:notice]%>
+          </div>
+          <% end %>
+
+          <h2>
+            Import from <a href='http://connect.garmin.com/'>Garmin Connect</a> activity to
+            <a href='http://runkeeper.com/'>RunKeeper</a> periodically (almost 1hr).
+          </h2>
+          
+          <div class='sns'>
+            <div id="hatena"></div>
+            <div id="twitter"></div>
+            <div id="facebook_share"></div>
+            <div id="facebook_like"></div>
+            <div id="google_plusone"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<%= yield %>
+
+    <div class='container'>
+      <div class='row'>
+        <div class='span8 offset2'>
+          <div class='comments'>
+            <div class="fb-comments" data-href="<%= url('/')%>" data-num-posts="10" data-width="620"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='container'>
+      <footer>
+        <p>&copy; 2012 <a href='http://3machinae.com/'>TriaMachinae LLC.</a></p>
+      </footer>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="<%= url("/js/bootstrap.min.js")%>"></script>
+  </body>
+</html>

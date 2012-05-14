@@ -1,0 +1,67 @@
+
+.connect {
+  text-align: center;
+  margin: 3em 0;
+}
+
+form.sync {
+  margin: 0 0 3em 0;
+  padding: 2em 0 0 0;
+  border-radius: 1em;
+  background-color: #f5efed;
+/*  background-image: linear-gradient(left , rgb(255,255,255) 0%, rgb(245,239,237) 50%, rgb(255,255,255) 100%);
+  background-image: -o-linear-gradient(left , rgb(255,255,255) 0%, rgb(245,239,237) 50%, rgb(255,255,255) 100%);
+  background-image: -moz-linear-gradient(left , rgb(255,255,255) 0%, rgb(245,239,237) 50%, rgb(255,255,255) 100%);
+  background-image: -webkit-linear-gradient(left , rgb(255,255,255) 0%, rgb(245,239,237) 50%, rgb(255,255,255) 100%);
+  background-image: -ms-linear-gradient(left , rgb(255,255,255) 0%, rgb(245,239,237) 50%, rgb(255,255,255) 100%);
+
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0, rgb(255,255,255)),
+    color-stop(0.5, rgb(245,239,237)),
+    color-stop(1, rgb(255,255,255))
+  );*/
+  background-image: linear-gradient(bottom, rgb(255,255,255) 0%, rgb(245,239,237) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(245,239,237) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(245,239,237) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(245,239,237) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(255,255,255) 0%, rgb(245,239,237) 100%);
+
+  background-image: -webkit-gradient(
+  	linear,
+  	left bottom,
+  	left top,
+  	color-stop(0, rgb(255,255,255)),
+  	color-stop(1, rgb(245,239,237))
+  );
+}
+
+form.sync .form-actions {
+  margin-bottom: 0;
+}
+
+.howtouse {
+  
+}
+
+.sns {
+  margin: 3em 0 0 0;
+}
+
+.sns div {
+  float: right;
+  margin-right: 0.2em;
+}
+
+.comments {
+  margin: 3em 0;
+}
+
+footer {
+  margin: 4em 0 0 0;
+  padding: 2em 0;
+  border-top: 1px solid #ccc;
+  text-align: right;
+}

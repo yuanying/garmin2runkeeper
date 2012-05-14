@@ -7,6 +7,7 @@ source :rubygems
 # Project requirements
 gem 'rake'
 gem 'sinatra-flash', :require => 'sinatra/flash'
+gem 'rack_csrf', :require => 'rack/csrf'
 
 # Component requirements
 gem 'sass'

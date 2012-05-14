@@ -13,6 +13,16 @@ class Garmin2runkeeper < Padrino::Application
     provider :runkeeper, ENV['RUNKEEPER_CLIENT_ID'], ENV['RUNKEEPER_CLIENT_SECRET']
   end
 
+  use Rack::Csrf, :raise => true
+
+  before do
+    begin
+      @user = User.where(:uid => session[:user]).first if session[:user]
+    rescue => ex
+      @user = nil
+    end
+  end
+
   ##
   # Caching support
   #
