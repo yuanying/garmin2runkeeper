@@ -27,6 +27,7 @@ gem 'runkeeper'
 gem 'omniauth-runkeeper'
 
 gem 'clockwork'
+gem 'daemon-spawn', :require => 'daemon_spawn'
 
 group :production, :staging do
   gem 'thin'
