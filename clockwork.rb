@@ -1,4 +1,6 @@
 $:.unshift(File.dirname(__FILE__) + '/config')
+Process.daemon
+
 require 'boot'
 require 'clockwork'
 
