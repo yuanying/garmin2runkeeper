@@ -27,7 +27,6 @@ gem 'runkeeper'
 gem 'omniauth-runkeeper'
 
 gem 'clockwork'
-gem 'foreman'
 
 group :production, :staging do
   gem 'thin'
