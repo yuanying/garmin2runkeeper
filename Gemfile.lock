@@ -7,14 +7,17 @@ GEM
     activesupport (3.2.3)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    bcrypt-ruby (3.0.1)
     bson (1.6.2)
     bson_ext (1.6.2)
       bson (~> 1.6.2)
     builder (3.0.0)
     clockwork (0.4.0)
       tzinfo
+    daemons (1.1.8)
     diff-lcs (1.1.3)
     erubis (2.7.0)
+    eventmachine (0.12.10)
     faraday (0.8.0)
       multipart-post (~> 1.1)
     hashie (1.2.0)
@@ -106,6 +109,10 @@ GEM
       tilt (~> 1.3, >= 1.3.3)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
+    thin (1.3.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     thor (0.14.6)
     tilt (1.3.3)
     treetop (1.4.10)
@@ -119,6 +126,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt-ruby
   bson_ext
   clockwork
   erubis (~> 2.7.0)
@@ -132,3 +140,4 @@ DEPENDENCIES
   runkeeper
   sass
   sinatra-flash
+  thin

@@ -10,6 +10,7 @@ gem 'sinatra-flash', :require => 'sinatra/flash'
 gem 'rack_csrf', :require => 'rack/csrf'
 
 # Component requirements
+gem 'bcrypt-ruby', :require => "bcrypt"
 gem 'sass'
 gem 'erubis', "~> 2.7.0"
 gem 'mongoid'

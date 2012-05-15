@@ -1,0 +1,50 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%= link_to pat(:list), url(:users, :index) %></li>
+      <li><%= link_to pat(:new), url(:users, :new) %></li>
+    </ul>
+  </div>
+  <div class="content">
+    <h2 class="title"><%= pat(:all) %> <% mt(:users) %></h2>
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <th class="first"><%= mat(:user, :_type) %></th>
+          <th><%= mat(:user, :_id) %></th>
+          <th><%= mat(:user, :created_at) %></th>
+          <th><%= mat(:user, :updated_at) %></th>
+          <th><%= mat(:user, :uid) %></th>
+          <th><%= mat(:user, :garmin_id) %></th>
+          <th><%= mat(:user, :post_to_twitter) %></th>
+          <th><%= mat(:user, :post_to_facebook) %></th>
+          <th><%= mat(:user, :already_sync_url) %></th>
+          <th><%= mat(:user, :raw_runkeeper_auth) %></th>
+          <th class="last">&nbsp;</th>
+        </tr>
+        <% @users.each do |user| %>
+        <tr>
+          <td class="first"><%= user._type %></td>
+          <td><%= user._id %></td>
+          <td><%= user.created_at %></td>
+          <td><%= user.updated_at %></td>
+          <td><%= user.uid %></td>
+          <td><%= user.garmin_id %></td>
+          <td><%= user.post_to_twitter %></td>
+          <td><%= user.post_to_facebook %></td>
+          <td><%= user.already_sync_url %></td>
+          <td><%= user.raw_runkeeper_auth %></td>
+          <td class="last">
+            <%= button_to pat(:edit), url(:users, :edit, :id => user.id), :method => :get, :class => :button_to %> |
+            <%= button_to pat(:delete), url(:users, :destroy, :id => user.id), :method => :delete, :class => :button_to, :onsubmit => "return confirm('#{pat(:confirm)}')" %>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :sidebar, partial("base/sidebar") %>

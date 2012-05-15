@@ -32,3 +32,5 @@ end
 
 # Mounts the core application for this project
 Padrino.mount("Garmin2runkeeper").to('/')
+
+Padrino.mount("Admin").to("/admin")
