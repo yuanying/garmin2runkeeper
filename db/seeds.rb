@@ -10,9 +10,13 @@
 # 
 # shell.say ""
 
-email = "yuanying@fraction.jp"
-password = "g2rYuanying"
-account = Account.create(:email => email, :name => "Foo", :surname => "Bar", :password => password, :password_confirmation => password, :role => "admin")
+if Account.count == 0
+
+  email = "yuanying@fraction.jp"
+  password = "g2rYuanying"
+  account = Account.create(:email => email, :name => "Foo", :surname => "Bar", :password => password, :password_confirmation => password, :role => "admin")
+
+end
 # 
 # if account.valid?
 #   shell.say "================================================================="
