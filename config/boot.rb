@@ -24,13 +24,6 @@ end
 # Add your after load hooks here
 #
 Padrino.after_load do
-  t = Thread.new do
-    Clockwork.every 1.hour, "synchronize" do
-    # Clockwork.every 10.seconds, "synchronize" do
-      Synchronizer.run
-    end
-    Clockwork.run
-  end
 end
 
 Padrino.load!
