@@ -20,6 +20,8 @@ GEM
     eventmachine (0.12.10)
     faraday (0.8.0)
       multipart-post (~> 1.1)
+    foreman (0.46.0)
+      thor (>= 0.13.6)
     hashie (1.2.0)
     http_router (0.10.2)
       rack (>= 1.0.0)
@@ -130,6 +132,7 @@ DEPENDENCIES
   bson_ext
   clockwork
   erubis (~> 2.7.0)
+  foreman
   mongoid
   omniauth-runkeeper
   padrino (= 0.10.6)
