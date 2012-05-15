@@ -20,6 +20,10 @@ class Admin < Padrino::Application
   # layout  :my_layout              # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
   #
 
+  before do
+    ENV['RACK_BASE_URI'] = request.script_name.to_s
+  end
+
   set :admin_model, 'Account'
   set :login_page, "/admin/sessions/new"
 
