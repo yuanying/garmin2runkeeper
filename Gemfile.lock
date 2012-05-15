@@ -11,6 +11,8 @@ GEM
     bson_ext (1.6.2)
       bson (~> 1.6.2)
     builder (3.0.0)
+    clockwork (0.4.0)
+      tzinfo
     diff-lcs (1.1.3)
     erubis (2.7.0)
     faraday (0.8.0)
@@ -118,6 +120,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext
+  clockwork
   erubis (~> 2.7.0)
   mongoid
   omniauth-runkeeper

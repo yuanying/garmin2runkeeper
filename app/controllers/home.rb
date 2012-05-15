@@ -34,7 +34,7 @@ Garmin2runkeeper.controllers :home do
       flash[:notice] = 'User information was deleted!'
     else
       garmin_id = params['garmin_id'].split(//u)[0, 40].join
-      garmin_id = nil if garmin_id.empty?
+      garmin_id = nil if garmin_id.nil? || garmin_id.empty?
       @user.garmin_id         = garmin_id
       @user.post_to_facebook  = params['post_to_facebook'] ? true : false
       @user.post_to_twitter   = params['post_to_twitter']  ? true : false

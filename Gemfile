@@ -25,6 +25,8 @@ gem 'padrino', '0.10.6'
 gem 'runkeeper'
 gem 'omniauth-runkeeper'
 
+gem 'clockwork'
+
 # Or Padrino Edge
 # gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
 

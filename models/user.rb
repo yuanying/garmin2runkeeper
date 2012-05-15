@@ -60,7 +60,8 @@ class User
   def sync exporter
     return unless self.garmin_id
     unsynchronized_activities.each do |item|
-      exporter.post(self, item, self.post_to_facebook, self.post_to_twitter)
+      activity_id = item.link.split('/').last
+      exporter.post(self, activity_id, self.post_to_facebook, self.post_to_twitter)
 
       self.already_sync_url = item.link
       self.save!
@@ -69,7 +70,7 @@ class User
 
   def runkeeper
     require 'runkeeper'
-    @runkeeper ||= Runkeeper.new(self.auth.credentials.token)
+    @runkeeper ||= Runkeeper.new(self.runkeeper_auth.credentials.token)
     @runkeeper
   end
 
