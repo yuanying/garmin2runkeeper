@@ -65,6 +65,10 @@
               </td>
               <td></td>
               <td class='sns_options'>
+                <label for='timezone'>
+                  Time zone:
+                </label>
+                <%=select_tag(:timezone, :id => 'timezone', :options => ActiveSupport::TimeZone.all.map{|tz| [tz.to_s, tz.name]}, :selected => @user.timezone.name)%>
                 <ul class='unstyled control-group'>
                   <li class="controls">
                     <label for='post_to_facebook' class='checkbox'><%=check_box_tag(:post_to_facebook, :checked => @user.post_to_facebook, :id => 'post_to_facebook')%> Post to Facebook</label>

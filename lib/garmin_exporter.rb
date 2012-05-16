@@ -82,7 +82,7 @@ class GarminExporter
 
         lap.elements.each('Track/Trackpoint') do |tp|
           if time = tp.elements['Time']
-            time = Time.parse(time.text)
+            time = user.timezone.parse(time.text)
             start_time = time unless start_time
             duration = time.to_i - start_time.to_i
 
@@ -115,7 +115,7 @@ class GarminExporter
 
     activity = user.runkeeper.new_activity(
       :type => type,
-      :start_time => start_time.localtime,
+      :start_time => start_time,
       :duration => duration,
       :heart_rate => heart_rate,
       :path => path,

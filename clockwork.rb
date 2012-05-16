@@ -3,6 +3,7 @@ $:.unshift(File.dirname(__FILE__) + '/config')
 require 'fileutils'
 require 'boot'
 require 'clockwork'
+require 'active_support/time'
 
 class ClockworkDaemon < DaemonSpawn::Base
 
@@ -12,6 +13,9 @@ class ClockworkDaemon < DaemonSpawn::Base
       Synchronizer.run
     end
     Clockwork.run
+  end
+
+  def stop
   end
 end
 

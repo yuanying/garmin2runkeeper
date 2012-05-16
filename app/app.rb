@@ -1,5 +1,6 @@
 require 'omniauth'
 require 'omniauth-runkeeper'
+require 'active_support/time'
 
 class Garmin2runkeeper < Padrino::Application
   register ScssInitializer

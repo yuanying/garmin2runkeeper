@@ -41,6 +41,7 @@ Garmin2runkeeper.controllers :home do
       @user.garmin_id         = garmin_id
       @user.post_to_facebook  = params['post_to_facebook'] ? true : false
       @user.post_to_twitter   = params['post_to_twitter']  ? true : false
+      @user.timezone          = params['timezone']
       @user.save!
       flash[:notice] = 'Update informations successfully!'
     end

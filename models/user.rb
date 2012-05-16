@@ -12,12 +12,13 @@ class User
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
   # field <name>, :type => <type>, :default => <value>
-  field :uid, :type => String
-  field :garmin_id, :type => String
-  field :post_to_twitter, :type => Boolean, :default => false
-  field :post_to_facebook, :type => Boolean, :default => false
-  field :already_sync_url, :type => String
-  field :raw_runkeeper_auth, :type => String
+  field :uid,                 :type => String
+  field :garmin_id,           :type => String
+  field :post_to_twitter,     :type => Boolean, :default => false
+  field :post_to_facebook,    :type => Boolean, :default => false
+  field :already_sync_url,    :type => String
+  field :raw_runkeeper_auth,  :type => String
+  field :raw_timezone,        :type => String
 
   # You can define indexes on documents using the index macro:
   index :uid , :unique => true
@@ -33,6 +34,20 @@ class User
   def runkeeper_auth
     @runkeeper_auth ||= YAML.load(self.raw_runkeeper_auth)
     @runkeeper_auth
+  end
+
+  def timezone=(value)
+    @timezone = ActiveSupport::TimeZone.new(value)
+    self.raw_timezone = @timezone.name
+  end
+
+  def timezone
+    @timezone ||= ActiveSupport::TimeZone.new(self.raw_timezone)
+    @timezone
+  rescue
+    puts 'ERRROROROROROROROROOROROROROOROR'
+    @timezone = ActiveSupport::TimeZone.new('Tokyo')
+    @timezone
   end
 
   def rss_url
