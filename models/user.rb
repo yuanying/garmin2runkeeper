@@ -43,7 +43,9 @@ class User
   def recent_public_activities
     @recent_public_activities ||= open(rss_url) do |io|
       items = []
-      RSS::Parser.parse(io.read).items.each do |item|
+      rss = RSS::Parser.parse(io.read)
+      raise 'RSS Error' if rss.channel.description.index('Error')
+      rss.items.each do |item|
         items << item unless item.link.nil?
       end
       items
