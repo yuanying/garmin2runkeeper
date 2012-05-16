@@ -21,7 +21,7 @@
               <td id='garmin_id_group' class="data control-group">
                 <%=text_field_tag( :garmin_id, :value => @user.garmin_id, :id => 'garmin_id')%>
               </td>
-              <td>
+              <td class='sync_button_td'>
                 <button type="submit" id='sync_button' class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
                 <%= csrf_tag %>
               </td>

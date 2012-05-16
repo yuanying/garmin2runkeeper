@@ -63,6 +63,9 @@ form.sync th {
 form.sync td {
   text-align: left;
 }
+form.sync td.sync_button_td {
+  text-align: center;
+}
 form.sync td.data {
   width: 220px;
 }
