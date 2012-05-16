@@ -1,56 +1,86 @@
-
 <div class='container'>
   <div class='row'>
-    <div class='span8 offset2'>
-      <form method='post' action='<%=url('/')%>' class="sync form-horizontal">
+    <div class='span10 offset1'>
+      <form method='post' id='sync_form' action='<%=url('/')%>' class="sync form-inline">
+        <table class=''>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Garmin ID</th>
+              <th></th>
+              <th></th>
+              <th>RunKeeper</th>
+            </tr>
+          </thead>
 
-        <div id='garmin_id_group' class="control-group">
-          <label class="control-label" for="garmin_id">Garmin ID</label>
-          <div class="controls">
-            <input type='text' id='garmin_id' name='garmin_id' value='<%=h @user.garmin_id %>' >
-            <p class="help-block">
-              <% if @user.garmin_id %>
-                  <h4>Your recent Garmin Connect public activities are:</h4>
-                  <div id='public_activities'></div>
-              <% else %>
-                <h4>What is Garmin ID?</h4>
-                <img src='<%= url('/img/what-is-garmin-id.jpg')%>' >
-              <% end %>
-            </p>
-          </div>
-        </div>
+          <tbody>
+            <tr>
+              <td class='icon'>
+                <%=image_tag(url('/img/garmin.png'), :id => 'garmin_image', :width => '50', :height => '50', :alt => 'MyGarmin ID')%>
+              </td>
+              <td id='garmin_id_group' class="data control-group">
+                <%=text_field_tag( :garmin_id, :value => @user.garmin_id, :id => 'garmin_id')%>
+              </td>
+              <td>
+                <button type="submit" class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
+                <%= csrf_tag %>
+              </td>
+              <td class='icon'>
+                <%=image_tag(runkeeper_icon, :width => '50', :height => '50', :alt => 'RunKeeper Name')%>
+              </td>
+              <td class='data'>
+                <span class='runkeeper_name'><%= runkeeper_name %></span>
+              </td>
+            </tr>
 
-        <div class="control-group">
-          <label class="control-label" for='post_to_facebook'>Post to facebook</label>
-          <div class="controls">
-            <label class='checkbox'>
-            <% if @user.post_to_facebook %>
-              <input type='checkbox' name='post_to_facebook' checked='checked' id='post_to_facebook' >
-            <% else %>
-              <input type='checkbox' name='post_to_facebook' id='post_to_facebook' >
-            <% end %>
-            Post activity change to Facebook.</label>
-          </div>
-        </div>
+            <tr>
+              <td></td>
+              <td class='recent_public_activities' colspan='2'>
+                <% unless @user.garmin_id.blank? %>
+                <h3>Your recent public activities are:</h3>
+                <ul>
+                  <% @user.recent_public_activities.each do |item| %>
+                    <li><a href='<%=item.link%>'><%=h item.title%></a></li>
+                  <% end %>
+                  <% if @user.recent_public_activities.size == 0 %>
+                    <% if @user.garmin_was_down %>
+                      <li><span class="label btn-danger">Maybe Garmin Connect was downed</span></li>
+                    <% else%>
+                      <li><span class="label label-warning">Activities Not Found</span>
+                        <ul>
+                        <li>Maybe your Garmin ID was incorrect.</li>
+                        <li>Or you don't have public activities.</li>
+                        </ul>
+                      </li>
+                      <script type='text/javascript'>
+                      <!--//
+                      $('#garmin_id_group').addClass('error');
+                      $('#garmin_id').focus();
+                      //-->
+                      </script>
+                    <% end %>
+                  <% end %>
+                </ul>
+                <% end %>
+              </td>
+              <td></td>
+              <td class='sns_options'>
+                <ul class='unstyled control-group'>
+                  <li class="controls">
+                    <label for='post_to_facebook' class='checkbox'><%=check_box_tag(:post_to_facebook, :checked => @user.post_to_facebook, :id => 'post_to_facebook')%> Post to Facebook</label>
+                  </li>
+                  <li class="controls">
+                    <label for='post_to_twitter' class='checkbox'><%=check_box_tag(:post_to_twitter, :checked => @user.post_to_twitter, :id => 'post_to_twitter')%> Post to Twitter</label>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
 
-        <div class="control-group">
-          <label class="control-label" for='post_to_twitter'>Post to twitter</label>
-          <div class="controls">
-            <label class='checkbox'>
-            <% if @user.post_to_twitter %>
-              <input type='checkbox' name='post_to_twitter' checked='checked' id='post_to_twitter' >
-            <% else %>
-              <input type='checkbox' name='post_to_twitter' id='post_to_twitter' >
-            <% end %>
-            Post activity change to twitter.</label>
-          </div>
-        </div>
-
+        </table>
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
-          <button type='reset' class="btn">Cancel</button>
+          <button type='submit' class="btn" name='logout' value='true'>Logout</button>
           <button type='submit' class='btn btn-danger' name='delete' value='true'>Delete</button>
-          <%= csrf_tag %>
         </div>
       </form>
     </div>
@@ -67,4 +97,3 @@
   </div>
 
 </div>
-

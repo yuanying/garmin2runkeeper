@@ -6,6 +6,8 @@ require 'open-uri'
 require 'omniauth/auth_hash'
 
 class User
+  attr_reader :garmin_was_down
+
   include Mongoid::Document
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
@@ -39,13 +41,18 @@ class User
   end
 
   def recent_public_activities
-    open(rss_url) do |io|
+    @recent_public_activities ||= open(rss_url) do |io|
       items = []
       RSS::Parser.parse(io.read).items.each do |item|
         items << item unless item.link.nil?
       end
       items
     end
+    @recent_public_activities
+  rescue
+    @garmin_was_down = true
+    @recent_public_activities = []
+    @recent_public_activities
   end
 
   def unsynchronized_activities

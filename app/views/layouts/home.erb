@@ -23,13 +23,6 @@
     <![endif]-->
     <script src="<%= url("/js/jquery-1.7.2.min.js")%>"></script>
     <script src="<%= url("/js/jquery.socialbutton-1.8.1.js")%>"></script>
-    <% if @user && @user.garmin_id %>
-    <script type='text/javascript'>
-    $(function() {
-      $('#public_activities').load('<%=url('/public_activities')%>');
-    });
-    </script>
-    <% end %>
     <script>
     $(function() {
 
@@ -52,6 +45,21 @@
 
     });
     </script>
+    <% if @user %>
+      <% if @user.garmin_id.blank? %>
+        <script type='text/javascript'>
+        $(function() {
+          $('#garmin_id').popover({
+            title: 'What is Garmin ID?',
+            content: "<img src='<%= url('/img/what-is-garmin-id.jpg')%>' >",
+            trigger: 'focus',
+            placement: 'bottom'
+          });
+          $('#garmin_id').popover('show');
+        });
+        </script>
+      <% end %>
+    <% end %>
   </head>
   
   <body>
@@ -87,7 +95,11 @@
             Import from <a href='http://connect.garmin.com/'>Garmin Connect</a> activity to
             <a href='http://runkeeper.com/'>RunKeeper</a> periodically (almost 1hr).
           </h2>
-          
+        </div>
+      </div>
+
+      <div class='row'>
+        <div class='span8 offset2'>
           <div class='sns'>
             <div id="hatena"></div>
             <div id="twitter"></div>

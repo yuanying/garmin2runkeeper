@@ -36,10 +36,37 @@ form.sync {
   	color-stop(0, rgb(255,255,255)),
   	color-stop(1, rgb(245,239,237))
   );
+  text-align: center;
 }
 
 form.sync .form-actions {
   margin-bottom: 0;
+  text-align: right;
+}
+form.sync table {
+  margin: auto;
+}
+form.sync th {
+  text-align: center;
+}
+form.sync td {
+  text-align: left;
+}
+form.sync td.data {
+  width: 220px;
+}
+form.sync input {
+  margin-bottom: 0;
+}
+form.sync .runkeeper_name {
+  padding: 0 0.4em;
+}
+form.sync .recent_public_activities,
+form.sync .sns_options {
+  vertical-align: top;
+}
+form.sync .recent_public_activities h3 {
+  font-size: 1.1em;
 }
 
 .howtouse {

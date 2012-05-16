@@ -32,6 +32,9 @@ Garmin2runkeeper.controllers :home do
     if params['delete']
       @user.destroy
       flash[:notice] = 'User information was deleted!'
+    elsif params['logout']
+      session[:user] = nil
+      flash[:notice] = 'Logout successfully.'
     else
       garmin_id = params['garmin_id'].split(//u)[0, 40].join
       garmin_id = nil if garmin_id.nil? || garmin_id.empty?
