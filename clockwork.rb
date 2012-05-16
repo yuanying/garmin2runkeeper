@@ -15,15 +15,15 @@ class ClockworkDaemon < DaemonSpawn::Base
   end
 end
 
-tmp_dir = File.join(File.dirname(__FILE__), 'tmp')
+pids_dir = File.join(File.dirname(__FILE__), 'tmp', 'pids')
 log_dir = File.join(File.dirname(__FILE__), 'log')
 
-FileUtils.mkdir_p(tmp_dir) unless File.directory?(tmp_dir)
+FileUtils.mkdir_p(pids_dir) unless File.directory?(pids_dir)
 FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
 
 ClockworkDaemon.spawn!(
   :working_dir => File.expand_path(File.dirname(__FILE__)),
-  :pid_file => File.expand_path(File.join(tmp_dir, 'clock.pid')),
+  :pid_file => File.expand_path(File.join(pids_dir, 'clock.pid')),
   :log_file => File.expand_path(File.join(log_dir, 'clock.log')),
   :sync_log => true,
   :singleton => true
