@@ -1,3 +1,14 @@
+.navbar .container {
+  text-align: center;
+}
+.navbar .brand {
+  padding: 0;
+  margin: auto;
+  float: none;
+}
+.navbar .brand img {
+  border: none;
+}
 
 .connect {
   text-align: center;
