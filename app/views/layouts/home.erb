@@ -45,6 +45,13 @@
 
     });
     </script>
+    <script type='text/javascript'>
+    $(function() {
+      $('#delete_data').click(function() {
+        return window.confirm('Delete all data?');
+      });
+    });
+    </script>
     <% if @user %>
       <% if @user.garmin_id.blank? %>
         <script type='text/javascript'>
