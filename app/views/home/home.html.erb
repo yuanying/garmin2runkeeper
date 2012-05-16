@@ -22,7 +22,7 @@
                 <%=text_field_tag( :garmin_id, :value => @user.garmin_id, :id => 'garmin_id')%>
               </td>
               <td>
-                <button type="submit" class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
+                <button type="submit" id='sync_button' class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
                 <%= csrf_tag %>
               </td>
               <td class='icon'>
