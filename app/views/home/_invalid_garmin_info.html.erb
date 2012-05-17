@@ -23,7 +23,8 @@
 </div>
 <div class="form-actions">
   <div class='inner_actions'>
-    <% if @user.recent_public_activities.size == 0 %>
+    <% if @user.garmin_id.blank? %>
+    <% elsif @user.recent_public_activities.size == 0 %>
       <h4>Activities Not Found</h4>
       <ul>
         <li><span class="label label-warning">Warning</span>
