@@ -1,0 +1,14 @@
+<script type='text/javascript'>
+$(window).load(function() {
+  var connect_image = $('#connect_image');
+  connect_image.popover({
+    title: '1) Connect to RunKeeper',
+    content: '<p>Click this button and login with RunKeeper account.</p><p style="text-align: right;"><%=image_tag(url('/img/runkeeper.jpg'), :width => '30', :height => '30', :alt => '')%></p>',
+    trigger: 'manual',
+    placement: 'top'
+  });
+  setTimeout(function() {
+    connect_image.popover('show');
+  }, 5000);
+});
+</script>

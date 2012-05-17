@@ -1,0 +1,33 @@
+<div class='runkeeper_info'>
+  <p class='account_icon'>
+    <%=image_tag(runkeeper_icon, :width => '50', :height => '50', :alt => 'RunKeeper Name')%>
+  </p>
+  <p class='account_name'>
+    <%=link_to(runkeeper_name, @user.runkeeper_auth.extra.raw_info.profile)%>
+  </p>
+</div>
+<div class='runkeeper_form'>
+  <% form_tag url('/'), :id => 'update_runkeeper_account', :method => 'post' do %>
+    <p>
+      <label for='timezone'>
+        Time zone:
+      </label>
+      <%=select_tag(:timezone, :id => 'timezone', :options => ActiveSupport::TimeZone.all.map{|tz| [tz.to_s, tz.name]}, :selected => @user.timezone.name)%>
+    </p>
+
+    <ul class='unstyled control-group'>
+      <li class="controls">
+        <label for='post_to_facebook' class='checkbox'><%=check_box_tag(:post_to_facebook, :checked => @user.post_to_facebook, :id => 'post_to_facebook')%> Post to Facebook</label>
+      </li>
+      <li class="controls">
+        <label for='post_to_twitter' class='checkbox'><%=check_box_tag(:post_to_twitter, :checked => @user.post_to_twitter, :id => 'post_to_twitter')%> Post to Twitter</label>
+      </li>
+    </ul>
+    <div class="form-actions">
+      <div class='inner_actions'>
+        <%= csrf_tag %>
+        <button type='submit' class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  <% end %>
+</div>

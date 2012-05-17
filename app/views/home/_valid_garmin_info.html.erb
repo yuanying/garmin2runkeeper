@@ -1,0 +1,37 @@
+<p id='garmin_account_name' class='account_name'>
+  <%=link_to(@user.garmin_id, "http://connect.garmin.com/explore?owner=#{@user.garmin_id}")%>
+  <a class='btn btn-mini' id='edit_garmin_id'>Edit</a>
+</p>
+<div id='garmin_form' style='display: none;'>
+  <% form_tag url('/'), :id => 'update_runkeeper_account', :method => 'post' do %>
+    <p id='garmin_id_group' class='account_name input-append control-group'>
+      <%= csrf_tag %>
+      <%=text_field_tag( :garmin_id, :value => @user.garmin_id, :id => 'garmin_id')%><button type="submit" id='sync_button' class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
+    </p>
+  <% end %>
+</div>
+
+<div class="form-actions">
+  <div class='inner_actions'>
+    <% if @user.garmin_was_down %>
+      <h4>Maybe Garmin Connect was downed</h4>
+      <p><%=link_to 'Check!', "http://connect.garmin.com/explore?owner=#{@user.garmin_id}", :class => 'btn'%></p>
+
+    <% elsif @user.unsynchronized_activities.size == 0 %>
+      <h4>All possible activities were imported.</h4>
+
+      <ul>
+        <li><span class="label label-info">Info</span> Only public activities were imported to RunKeeper.</li>
+        <li><span class="label label-info">Info</span> Only running activities were imported to RunKeeper.</li>
+      </ul>
+    <% else %>
+      <h4>These activities will be imported next time:</h4>
+
+      <ul>
+        <% @user.unsynchronized_activities.each do |item| %>
+          <li><%= link_to item.title, item.link %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>

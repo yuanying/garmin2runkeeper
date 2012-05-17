@@ -1,0 +1,13 @@
+<div class='row'>
+  <div class='span8 offset2'>
+    <div class='logout_form'>
+      <% form_tag url('/'), :id => 'update_runkeeper_account', :method => 'post' do %>
+        <p>
+          <button type='submit' class="btn" name='logout' value='true'>Logout</button>
+          <button type='submit' class='btn btn-danger' name='delete' value='true' id='delete_data'>Delete</button>
+          <%= csrf_tag %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>

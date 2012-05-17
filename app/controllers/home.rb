@@ -36,12 +36,18 @@ Garmin2runkeeper.controllers :home do
       session[:user] = nil
       flash[:notice] = 'Logout successfully.'
     else
-      garmin_id = params['garmin_id'].split(//u)[0, 40].join
-      garmin_id = nil if garmin_id.nil? || garmin_id.empty?
-      @user.garmin_id         = garmin_id
-      @user.post_to_facebook  = params['post_to_facebook'] ? true : false
-      @user.post_to_twitter   = params['post_to_twitter']  ? true : false
-      @user.timezone          = params['timezone']
+      if params['garmin_id']
+        garmin_id = params['garmin_id'].split(//u)[0, 40].join
+        garmin_id = nil if garmin_id.nil? || garmin_id.empty?
+        @user.garmin_id         = garmin_id
+      end
+
+      if params['timezone']
+        @user.post_to_facebook  = params['post_to_facebook'] ? true : false
+        @user.post_to_twitter   = params['post_to_twitter']  ? true : false
+        @user.timezone          = params['timezone']
+      end
+
       @user.save!
       flash[:notice] = 'Update informations successfully!'
     end

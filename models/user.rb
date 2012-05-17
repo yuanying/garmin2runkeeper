@@ -72,12 +72,15 @@ class User
   end
 
   def unsynchronized_activities
-    items = []
-    recent_public_activities.each do |item|
-      break if item.link == self.already_sync_url
-      items << item
+    unless @unsynchronized_activities
+      @unsynchronized_activities = []
+      recent_public_activities.each do |item|
+        break if item.link == self.already_sync_url
+        @unsynchronized_activities << item
+      end
+      @unsynchronized_activities.reverse!
     end
-    items.reverse
+    @unsynchronized_activities
   end
 
   def sync exporter

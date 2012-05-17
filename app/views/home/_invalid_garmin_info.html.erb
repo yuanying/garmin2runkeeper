@@ -1,0 +1,44 @@
+<% if @user.garmin_id.blank? %>
+<script type='text/javascript'>
+  $(window).load(function() {
+    var garmin_id_field = $('#garmin_id');
+    garmin_id_field.popover({
+      title: '2) Input your Garmin ID',
+      content: "What is Garmin ID?<br ><img src='<%= url('/img/what-is-garmin-id.jpg')%>' >",
+      trigger: 'manual',
+      placement: 'top'
+    });
+    garmin_id_field.popover('show');
+  });
+</script>
+<% end %>
+
+<div id='garmin_form'>
+  <% form_tag url('/'), :id => 'update_runkeeper_account', :method => 'post' do %>
+    <p id='garmin_id_group' class='account_name input-append control-group'>
+      <%= csrf_tag %>
+      <%=text_field_tag( :garmin_id, :value => @user.garmin_id, :id => 'garmin_id')%><button type="submit" id='sync_button' class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
+    </p>
+  <% end %>
+</div>
+<div class="form-actions">
+  <div class='inner_actions'>
+    <% if @user.recent_public_activities.size == 0 %>
+      <h4>Activities Not Found</h4>
+      <ul>
+        <li><span class="label label-warning">Warning</span>
+          Maybe your Garmin ID was incorrect.</li>
+        <li><span class="label label-warning">Warning</span>
+          Or you don't have public activities.</li>
+      </ul>
+      <p><%=link_to 'Check!', "http://connect.garmin.com/explore?owner=#{@user.garmin_id}", :class => 'btn'%></p>
+      <script type='text/javascript'>
+      <!--//
+      $('#garmin_id_group').addClass('error');
+      $('#garmin_id').focus();
+      //-->
+      </script>
+    <% end %>
+  </div>
+</div>
+

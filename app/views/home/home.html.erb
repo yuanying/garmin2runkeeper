@@ -1,147 +1,31 @@
-<% content_for(:head) do %>
-  <% if @user %>
-  <script type='text/javascript'>
-  $(function() {
-    var garmin_id_field = $('#garmin_id');
-    var sync_button     = $('#sync_button');
-    var initial_garmin_id_was_blank = false;
-    garmin_id_field.popover({
-      title: '1) Input your Garmin ID',
-      content: "What is Garmin ID?<br ><img src='<%= url('/img/what-is-garmin-id.jpg')%>' >",
-      trigger: 'manual',
-      placement: 'bottom'
-    });
-    sync_button.popover({
-      title: '2) Click sync button',
-      content: "Your Garmin Connect public activities will be imported almost after 1 hour.",
-      trigger: 'manual',
-      placement: 'top'
-    });
-    if(garmin_id_field.attr('value').length == 0) {
-      garmin_id_field.popover('show');
-      initial_garmin_id_was_blank = true;
-    }
-    garmin_id_field.change(function() {
-      if(garmin_id_field.attr('value').length == 0) {
-        garmin_id_field.popover('show');
-      } else {
-        garmin_id_field.popover('hide');
-        if (initial_garmin_id_was_blank) {
-          sync_button.popover('show');
-        }
-      }
-    });
-  });
-  </script>
-  <script type='text/javascript'>
-  $(function() {
-    $('#delete_data').click(function() {
-      return window.confirm('Delete all data?');
-    });
-  });
-  </script>
-  <% end %>
-<% end %>
+
+<%= partial 'home/on_user_script'%>
 
 <div class='container'>
+
+  <%= partial 'home/logout_form' %>
+
   <div class='row'>
-    <div class='span10 offset1'>
-      <form method='post' id='sync_form' action='<%=url('/')%>' class="sync form-inline">
-        <table class=''>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Garmin ID</th>
-              <th></th>
-              <th></th>
-              <th>RunKeeper</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td class='icon'>
-                <%=image_tag(url('/img/garmin.png'), :id => 'garmin_image', :width => '50', :height => '50', :alt => 'MyGarmin ID')%>
-              </td>
-              <td id='garmin_id_group' class="data control-group">
-                <%=text_field_tag( :garmin_id, :value => @user.garmin_id, :id => 'garmin_id')%>
-              </td>
-              <td class='sync_button_td'>
-                <button type="submit" id='sync_button' class="btn btn-primary"><i class='icon-refresh icon-white'></i> Sync</button>
-                <%= csrf_tag %>
-              </td>
-              <td class='icon'>
-                <%=image_tag(runkeeper_icon, :width => '50', :height => '50', :alt => 'RunKeeper Name')%>
-              </td>
-              <td class='data'>
-                <span class='runkeeper_name'><%= runkeeper_name %></span>
-              </td>
-            </tr>
-
-            <tr>
-              <td></td>
-              <td class='recent_public_activities' colspan='2'>
-                <% unless @user.garmin_id.blank? %>
-                <h3>Your recent public activities are:</h3>
-                <ul>
-                  <% @user.recent_public_activities.each do |item| %>
-                    <li><a href='<%=item.link%>'><%=h item.title%></a></li>
-                  <% end %>
-                  <% if @user.recent_public_activities.size == 0 %>
-                    <% if @user.garmin_was_down %>
-                      <li><span class="label btn-danger">Maybe Garmin Connect was downed</span></li>
-                    <% else%>
-                      <li><span class="label label-warning">Activities Not Found</span>
-                        <ul>
-                        <li>Maybe your Garmin ID was incorrect.</li>
-                        <li>Or you don't have public activities.</li>
-                        </ul>
-                      </li>
-                      <script type='text/javascript'>
-                      <!--//
-                      $('#garmin_id_group').addClass('error');
-                      $('#garmin_id').focus();
-                      //-->
-                      </script>
-                    <% end %>
-                  <% end %>
-                </ul>
-                <% end %>
-              </td>
-              <td></td>
-              <td class='sns_options'>
-                <label for='timezone'>
-                  Time zone:
-                </label>
-                <%=select_tag(:timezone, :id => 'timezone', :options => ActiveSupport::TimeZone.all.map{|tz| [tz.to_s, tz.name]}, :selected => @user.timezone.name)%>
-                <ul class='unstyled control-group'>
-                  <li class="controls">
-                    <label for='post_to_facebook' class='checkbox'><%=check_box_tag(:post_to_facebook, :checked => @user.post_to_facebook, :id => 'post_to_facebook')%> Post to Facebook</label>
-                  </li>
-                  <li class="controls">
-                    <label for='post_to_twitter' class='checkbox'><%=check_box_tag(:post_to_twitter, :checked => @user.post_to_twitter, :id => 'post_to_twitter')%> Post to Twitter</label>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-        <div class="form-actions">
-          <button type='submit' class="btn" name='logout' value='true'>Logout</button>
-          <button type='submit' class='btn btn-danger' name='delete' value='true' id='delete_data'>Delete</button>
-        </div>
-      </form>
+    <div class='span8 offset2'>
+      <div id='connect_to_garmin' class='actions'>
+        <h3>Garmin Account</h3>
+        <%= partial 'home/garmin_info'%>
+      </div>
     </div>
   </div>
 
   <div class='row'>
     <div class='span8 offset2'>
-      <h2>Notice</h2>
-      <ol>
-        <li>Only public activities will be imported to RunKeeper.</li>
-        <li>Only running activities will be imported to RunKeeper.</li>
-      </ol>
+      <div class='arrow'><%=image_tag url('/img/arrow.png'), :width => '50', :height => '55', :alt => ''%></div>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='span8 offset2'>
+      <div id='connect_to_runkeeper' class='actions'>
+        <h3>RunKeeper Account</h3>
+        <%= partial 'home/runkeeper_info'%>
+      </div>
     </div>
   </div>
 

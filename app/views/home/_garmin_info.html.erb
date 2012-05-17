@@ -1,0 +1,12 @@
+<div class='garmin_info'>
+  <p class='account_icon'>
+    <%=image_tag(url('/img/garmin.png'), :width => '50', :height => '50', :alt => 'Garmin Name')%>
+  </p>
+
+  <% if valid_garmin_account? %>
+    <%= partial 'home/valid_garmin_info'%>
+  <% else %>
+    <%= partial 'home/invalid_garmin_info'%>
+  <% end %>
+
+</div>
