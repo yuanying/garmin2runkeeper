@@ -46,48 +46,7 @@
 
     });
     </script>
-    <script type='text/javascript'>
-    $(function() {
-      $('#delete_data').click(function() {
-        return window.confirm('Delete all data?');
-      });
-    });
-    </script>
-    <% if @user %>
-      <script type='text/javascript'>
-      $(function() {
-        var garmin_id_field = $('#garmin_id');
-        var sync_button     = $('#sync_button');
-        var initial_garmin_id_was_blank = false;
-        garmin_id_field.popover({
-          title: '1) Input your Garmin ID',
-          content: "What is Garmin ID?<br ><img src='<%= url('/img/what-is-garmin-id.jpg')%>' >",
-          trigger: 'manual',
-          placement: 'bottom'
-        });
-        sync_button.popover({
-          title: '2) Click sync button',
-          content: "Your Garmin Connect public activities will be imported almost after 1 hour.",
-          trigger: 'manual',
-          placement: 'top'
-        });
-        if(garmin_id_field.attr('value').length == 0) {
-          garmin_id_field.popover('show');
-          initial_garmin_id_was_blank = true;
-        }
-        garmin_id_field.change(function() {
-          if(garmin_id_field.attr('value').length == 0) {
-            garmin_id_field.popover('show');
-          } else {
-            garmin_id_field.popover('hide');
-            if (initial_garmin_id_was_blank) {
-              sync_button.popover('show');
-            }
-          }
-        });
-      });
-      </script>
-    <% end %>
+    <%= yield_content(:head)%>
   </head>
   
   <body>

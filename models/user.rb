@@ -45,7 +45,6 @@ class User
     @timezone ||= ActiveSupport::TimeZone.new(self.raw_timezone)
     @timezone
   rescue
-    puts 'ERRROROROROROROROROOROROROROOROR'
     @timezone = ActiveSupport::TimeZone.new('Tokyo')
     @timezone
   end
