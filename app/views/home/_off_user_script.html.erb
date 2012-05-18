@@ -10,5 +10,8 @@ $(window).load(function() {
   setTimeout(function() {
     connect_image.popover('show');
   }, 5000);
+  $('.popover').live('click', function() {
+    connect_image.popover('hide');
+  });
 });
 </script>
