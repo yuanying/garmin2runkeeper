@@ -15,7 +15,7 @@
   <div class='inner_actions'>
     <% if @user.garmin_was_down %>
       <h4>Maybe Garmin Connect was downed</h4>
-      <p><%=link_to 'Check!', "http://connect.garmin.com/explore?owner=#{@user.garmin_id}", :class => 'btn'%></p>
+      <p><%=link_to 'Check your public activities!', "http://connect.garmin.com/explore?owner=#{@user.garmin_id}", :class => 'btn'%></p>
 
     <% elsif @user.unsynchronized_activities.size == 0 %>
       <h4>All possible activities were imported.</h4>

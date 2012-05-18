@@ -52,8 +52,32 @@
 	text-align: center;
 }
 .actions.disabled h3 {
+	
 	background-color: #999;
 	color: #ccc;
+	background-image: none;
+}
+
+#connect_to_garmin h3 {
+	position: relative;
+	z-index: -1;
+	overflow: hidden;
+	height: 50px;
+	background: url(../img/navbar-bg.png) 0 bottom;
+}
+#connect_to_garmin h3 img {
+	position: relative;
+	top: -20px;
+}
+#connect_to_runkeeper h3 {
+	position: relative;
+	z-index: -1;
+	overflow: hidden;
+	height: 50px;
+}
+#connect_to_runkeeper h3 img {
+	position: relative;
+	bottom: -5px;
 }
 
 #connect_to_runkeeper .connect_info {

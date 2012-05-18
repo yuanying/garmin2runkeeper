@@ -8,7 +8,7 @@
   <div class='row'>
     <div class='span8 offset2'>
       <div id='connect_to_garmin' class='actions'>
-        <h3>Garmin Account</h3>
+        <h3><%= image_tag url('/img/gc-logo.png'), :alt => 'Garmin Connect', :width => '210', :height => '70'%></h3>
         <%= partial 'home/garmin_info'%>
       </div>
     </div>
@@ -23,7 +23,7 @@
   <div class='row'>
     <div class='span8 offset2'>
       <div id='connect_to_runkeeper' class='actions'>
-        <h3>RunKeeper Account</h3>
+        <h3><%= image_tag url('/img/rk-logo.png'), :alt => 'RunKeeper', :width => '205', :height => '40'%></h3>
         <%= partial 'home/runkeeper_info'%>
       </div>
     </div>
