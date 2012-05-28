@@ -100,4 +100,8 @@ class User
     @runkeeper
   end
 
+  def check_account!
+    self.runkeeper.profile
+  end
+
 end

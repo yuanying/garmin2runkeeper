@@ -4,6 +4,8 @@ require 'fileutils'
 require 'boot'
 require 'clockwork'
 require 'active_support/time'
+require 'synchronizer'
+require 'user_gc'
 
 class ClockworkDaemon < DaemonSpawn::Base
 
@@ -11,6 +13,9 @@ class ClockworkDaemon < DaemonSpawn::Base
     puts 'Started ClockworkDaemon'
     Clockwork.every 1.hour, 'synchronize' do
       Synchronizer.run
+    end
+    Clockwork.every 1.day, 'gc' do
+      UserGC.run
     end
     Clockwork.run
   end
