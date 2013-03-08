@@ -115,7 +115,8 @@ class User
       rss = RSS::Parser.parse(io.read)
       raise 'RSS Error' if rss.channel.description.index('Error')
       rss.items.each do |item|
-        items << GarminActivity.new(item.link.match(/\/([\d]+)$/).to_s, item.title) unless item.link.nil?
+        item.link.match(/\/([\d]+)$/)
+        items << GarminActivity.new($1, item.title) unless item.link.nil?
       end
       items
     end
