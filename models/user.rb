@@ -132,6 +132,7 @@ class User
 
   def unsynchronized_activities
     unless @unsynchronized_activities
+      self.already_sync_activity_ids = {}
       @unsynchronized_activities = []
 
       activities = :recent_public_activities
