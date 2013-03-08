@@ -58,7 +58,7 @@ class GarminExporter
     options = {}
     options['Cookie'] = user.cookies if user.cookies
 
-    open("http://connect.garmin.com/proxy/activity-service-1.1/gpx/activity/#{activity_id}?full=true", options) do |gpx|
+    open("http://connect.garmin.com/proxy/activity-service-1.1/gpx/activity/#{activity_id}", options) do |gpx|
       doc = REXML::Document.new gpx
       title =  doc.elements['/gpx/trk/name'] ? doc.elements['/gpx/trk/name'].text : 'Untitle'
       desc  = doc.elements['/gpx/trk/desc'] ? doc.elements['/gpx/trk/desc'].text : ''
