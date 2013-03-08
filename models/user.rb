@@ -43,6 +43,8 @@ class User
   # You can create a composite key in mongoid to replace the default id using the key macro:
   # key :field <, :another_field, :one_more ....>
 
+  attr_accessor :cookies
+
   def runkeeper_auth=(value)
     self.raw_runkeeper_auth = value.to_yaml
     @runkeeper_auth = value
@@ -93,6 +95,7 @@ class User
       # FIXME rescue password error.
       raise 'Password is incorrect.' if page.uri.to_s.match(/connect.garmin.com\/signin/)
 
+      @cookies = agent.cookies.join('; ')
       @recent_activities = []
       activities = page.search('.activityNameLink')
       activities.each do |act|

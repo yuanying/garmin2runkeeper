@@ -55,15 +55,17 @@ class GarminExporter
     total_calories = 0
     notes = nil
     path = []
+    options = {}
+    options['Cookie'] = user.cookies if user.cookies
 
-    open("http://connect.garmin.com/proxy/activity-service-1.1/gpx/activity/#{activity_id}?full=true") do |gpx|
+    open("http://connect.garmin.com/proxy/activity-service-1.1/gpx/activity/#{activity_id}?full=true", options) do |gpx|
       doc = REXML::Document.new gpx
       title =  doc.elements['/gpx/trk/name'] ? doc.elements['/gpx/trk/name'].text : 'Untitle'
       desc  = doc.elements['/gpx/trk/desc'] ? doc.elements['/gpx/trk/desc'].text : ''
       notes = "#{title}, #{desc}"
     end
 
-    open("http://connect.garmin.com/proxy/activity-service-1.1/tcx/activity/#{activity_id}?full=true") do |tcx|
+    open("http://connect.garmin.com/proxy/activity-service-1.1/tcx/activity/#{activity_id}?full=true", options) do |tcx|
       doc = REXML::Document.new tcx
 
       doc.elements.each('/TrainingCenterDatabase/Activities/Activity/Lap') do |lap|
