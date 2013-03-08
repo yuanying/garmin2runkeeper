@@ -16,6 +16,8 @@ gem 'erubis', "~> 2.7.0"
 gem 'mongoid'
 gem 'bson_ext', :require => "mongo"
 
+gem 'mechanize'
+
 # Test requirements
 gem 'rspec'#, :group => "test"
 gem 'rack-test', :require => "rack/test"#, :group => "test"

@@ -1,3 +1,4 @@
+require 'set'
 require 'yaml'
 require 'rss/1.0'
 require 'rss/2.0'
@@ -14,9 +15,11 @@ class User
   # field <name>, :type => <type>, :default => <value>
   field :uid,                 :type => String
   field :garmin_id,           :type => String
+  field :garmin_password,     :type => String
   field :post_to_twitter,     :type => Boolean, :default => false
   field :post_to_facebook,    :type => Boolean, :default => false
   field :already_sync_url,    :type => String
+  field :already_sync_urls,   :type => Set
   field :raw_runkeeper_auth,  :type => String
   field :raw_timezone,        :type => String
 
@@ -52,6 +55,38 @@ class User
   def rss_url
     garmin_username = self.garmin_id
     "http://connect.garmin.com/feed/rss/activities?feedname=Garmin#{Time.now.strftime('%Y%m%d%H')}&explore=true&activityType=running&eventType=all&activitySummarySumDistance-unit=kilometer&activitySummarySumDuration-unit=hour&activitySummaryGainElevation-unit=meter&owner=#{garmin_username}&sortField=beginTimestamp"
+  end
+
+  def activities_url
+    "http://connect.garmin.com/activities"
+  end
+
+  def recent_activities
+    unless defined?(@recent_activities)
+      proxy = ENV['http_proxy'] || ENV['HTTP_PROXY']
+      proxy = URI.parse(proxy) if proxy
+
+      agent = Mechanize.new { |agent| agent.user_agent_alias = 'Mac Safari' }
+      agent.set_proxy(proxy.host, proxy.port) if proxy
+      page = agent.get('http://connect.garmin.com/signin')
+      form = page.form('login')
+      form.send('login:loginUsernameField', self.garmin_id)
+      form.send('login:password', self.garmin_password)
+      form.submit
+
+      @recent_activities = []
+      page = agent.get(activities_url, { 'activityType' => 'running', 'eventType' => 'all'})
+      activities = page.search('.activityNameLink')
+      activities.each do |act|
+        act[:href].match(/\/([\d]+)$/)
+        @recent_activities << "http://connect.garmin.com/activity/#{$1}"
+      end
+    end
+    @recent_activities
+  rescue
+    @garmin_was_down = true
+    @recent_activities = []
+    @recent_activities
   end
 
   def recent_public_activities
