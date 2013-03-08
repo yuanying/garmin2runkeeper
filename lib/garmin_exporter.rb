@@ -46,23 +46,25 @@ end
 class GarminExporter
 
   def post user, activity_id, post_to_facebook, post_to_twitter
-    type = 'Running'
-    start_time = nil
-    total_distance = 0
-    duration = nil
+    type            = 'Running'
+    start_time      = nil
+    total_distance  = 0
+    duration        = nil
     # average_heart_rate = 0
-    heart_rate = []
-    total_calories = 0
-    notes = nil
-    path = []
-    options = {}
+    heart_rate      = []
+    total_calories  = 0
+    notes           = nil
+    path            = []
+    title           = nil
+    desc            = nil
+    options         = {}
     options['Cookie'] = user.cookies if user.cookies
 
     open("http://connect.garmin.com/proxy/activity-service-1.1/gpx/activity/#{activity_id}", options) do |gpx|
       doc = REXML::Document.new gpx
-      title =  doc.elements['/gpx/trk/name'] ? doc.elements['/gpx/trk/name'].text : 'Untitle'
-      desc  = doc.elements['/gpx/trk/desc'] ? doc.elements['/gpx/trk/desc'].text : ''
-      notes = "#{title}, #{desc}"
+      title =  doc.elements['/gpx/trk/name'] ? doc.elements['/gpx/trk/name'].text : nil
+      desc  = doc.elements['/gpx/trk/desc'] ? doc.elements['/gpx/trk/desc'].text : nil
+      notes = [title, desc].compact.join(', ')
     end
 
     open("http://connect.garmin.com/proxy/activity-service-1.1/tcx/activity/#{activity_id}?full=true", options) do |tcx|

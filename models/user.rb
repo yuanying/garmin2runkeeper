@@ -149,16 +149,20 @@ class User
   def sync exporter
     return unless self.garmin_id
     unsynchronized_activities.each do |item|
-      activity_id = item.id
-      exporter.post(self, activity_id, self.post_to_facebook, self.post_to_twitter)
+      begin
+        activity_id = item.id
+        exporter.post(self, activity_id, self.post_to_facebook, self.post_to_twitter)
 
-      # self.already_sync_url = item.link
-      self.already_sync_activity_ids[item.id] = item.link
-      if self.already_sync_activity_ids.size > 100
-        min = self.already_sync_activity_ids.min{|a,b| a[0].to_i - b[0].to_i }
-        self.already_sync_activity_ids.delete(min[0])
+        # self.already_sync_url = item.link
+        self.already_sync_activity_ids[item.id] = item.link
+        if self.already_sync_activity_ids.size > 100
+          min = self.already_sync_activity_ids.min{|a,b| a[0].to_i - b[0].to_i }
+          self.already_sync_activity_ids.delete(min[0])
+        end
+        self.save!
+      rescue => ex
+        puts ex.message # FIXME
       end
-      self.save!
     end
   end
 
