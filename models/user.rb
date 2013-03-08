@@ -149,6 +149,10 @@ class User
 
       # self.already_sync_url = item.link
       self.already_sync_activity_ids.add(item.id)
+      if self.already_sync_activity_ids.size > 100
+        min = self.already_sync_activity_ids.min{|a,b| a.to_i - b.to_i }
+        self.already_sync_activity_ids.delete(min)
+      end
       self.save!
     end
   end
