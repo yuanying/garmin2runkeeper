@@ -6,6 +6,20 @@ require 'rss/dublincore'
 require 'open-uri'
 require 'omniauth/auth_hash'
 
+class GarminActivity
+  attr_accessor :id
+  attr_accessor :title
+
+  def initialize(id, title)
+    self.id     = id
+    self.title  = title
+  end
+
+  def link
+    "http://connect.garmin.com/activity/#{id}"
+  end
+end
+
 class User
   attr_reader :garmin_was_down
 
@@ -13,15 +27,15 @@ class User
   include Mongoid::Timestamps # adds created_at and updated_at fields
 
   # field <name>, :type => <type>, :default => <value>
-  field :uid,                 :type => String
-  field :garmin_id,           :type => String
-  field :garmin_password,     :type => String
-  field :post_to_twitter,     :type => Boolean, :default => false
-  field :post_to_facebook,    :type => Boolean, :default => false
-  field :already_sync_url,    :type => String
-  field :already_sync_urls,   :type => Set
-  field :raw_runkeeper_auth,  :type => String
-  field :raw_timezone,        :type => String
+  field :uid,                       :type => String
+  field :garmin_id,                 :type => String
+  field :garmin_password,           :type => String
+  field :post_to_twitter,           :type => Boolean, :default => false
+  field :post_to_facebook,          :type => Boolean, :default => false
+  field :already_sync_url,          :type => String
+  field :already_sync_activity_ids, :type => Set
+  field :raw_runkeeper_auth,        :type => String
+  field :raw_timezone,              :type => String
 
   # You can define indexes on documents using the index macro:
   index :uid , :unique => true
@@ -62,7 +76,7 @@ class User
   end
 
   def recent_activities
-    unless defined?(@recent_activities)
+    unless defined?(@recent_activities) && @recent_activities
       proxy = ENV['http_proxy'] || ENV['HTTP_PROXY']
       proxy = URI.parse(proxy) if proxy
 
@@ -74,16 +88,22 @@ class User
       form.send('login:password', self.garmin_password)
       form.submit
 
-      @recent_activities = []
       page = agent.get(activities_url, { 'activityType' => 'running', 'eventType' => 'all'})
+
+      # FIXME rescue password error.
+      raise 'Password is incorrect.' if page.uri.to_s.match(/connect.garmin.com\/signin/)
+
+      @recent_activities = []
       activities = page.search('.activityNameLink')
       activities.each do |act|
+        name = act.search('span').inner_html
         act[:href].match(/\/([\d]+)$/)
-        @recent_activities << "http://connect.garmin.com/activity/#{$1}"
+        @recent_activities << GarminActivity.new($1, name)
       end
     end
     @recent_activities
-  rescue
+  rescue => ex
+    puts ex.message
     @garmin_was_down = true
     @recent_activities = []
     @recent_activities
@@ -95,7 +115,7 @@ class User
       rss = RSS::Parser.parse(io.read)
       raise 'RSS Error' if rss.channel.description.index('Error')
       rss.items.each do |item|
-        items << item unless item.link.nil?
+        items << GarminActivity.new(item.link.match(/\/([\d]+)$/).to_s, item.title) unless item.link.nil?
       end
       items
     end
@@ -109,9 +129,12 @@ class User
   def unsynchronized_activities
     unless @unsynchronized_activities
       @unsynchronized_activities = []
-      recent_public_activities.each do |item|
+
+      activities = :recent_public_activities
+      activities = :recent_activities unless self.garmin_password.nil? || self.garmin_password.empty?
+      self.send(activities).each do |item|
         break if item.link == self.already_sync_url
-        @unsynchronized_activities << item
+        @unsynchronized_activities << item unless self.already_sync_activity_ids.include?(item.id)
       end
       @unsynchronized_activities.reverse!
     end
@@ -121,10 +144,11 @@ class User
   def sync exporter
     return unless self.garmin_id
     unsynchronized_activities.each do |item|
-      activity_id = item.link.split('/').last
+      activity_id = item.id
       exporter.post(self, activity_id, self.post_to_facebook, self.post_to_twitter)
 
-      self.already_sync_url = item.link
+      # self.already_sync_url = item.link
+      self.already_sync_activity_ids.add(item.id)
       self.save!
     end
   end

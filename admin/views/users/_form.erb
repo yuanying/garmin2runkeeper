@@ -10,6 +10,11 @@
   <span class="description">Ex: a simple text</span>
 </div>
 <div class="group">
+  <%= f.label :garmin_password %><%= f.error_message_on :garmin_password %>
+  <%= f.password_field :garmin_password, :class => :password_field %>
+  <span class="description">Ex: a simple text</span>
+</div>
+<div class="group">
   <%= f.label :post_to_twitter %><%= f.error_message_on :post_to_twitter %>
   <%= f.check_box :post_to_twitter, :class => :check_box %>
   <span class="description">Ex: a simple text</span>
