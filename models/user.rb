@@ -78,6 +78,8 @@ class User
   end
 
   def recent_activities
+    return self.recent_public_activities if self.garmin_password.nil? || self.garmin_password.empty?
+
     unless defined?(@recent_activities) && @recent_activities
       proxy = ENV['http_proxy'] || ENV['HTTP_PROXY']
       proxy = URI.parse(proxy) if proxy
@@ -135,9 +137,7 @@ class User
       self.already_sync_activity_ids ||= {}
       @unsynchronized_activities = []
 
-      activities = :recent_public_activities
-      activities = :recent_activities unless self.garmin_password.nil? || self.garmin_password.empty?
-      self.send(activities).each do |item|
+      self.recent_activities.each do |item|
         break if item.link == self.already_sync_url
         @unsynchronized_activities << item unless self.already_sync_activity_ids.include?(item.id)
       end

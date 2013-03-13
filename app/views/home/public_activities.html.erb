@@ -1,8 +1,8 @@
 <ul>
-  <% @user.recent_public_activities.each do |item| %>
+  <% @user.recent_activities.each do |item| %>
     <li><a href='<%=item.link%>'><%=h item.title%></a></li>
   <% end %>
-  <% if @user.recent_public_activities.size == 0 %>
+  <% if @user.recent_activities.size == 0 %>
     <li><span class="label label-warning">Activities Not Found</span>
       <ul>
       <li>Maybe your Garmin ID was incorrect.</li>

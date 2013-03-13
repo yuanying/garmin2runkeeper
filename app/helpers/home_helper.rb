@@ -19,8 +19,8 @@ Garmin2runkeeper.helpers do
 
   def valid_garmin_account?
     return false if @user.garmin_id.blank?
-    return true if @user.recent_public_activities && @user.garmin_was_down
-    return false if @user.recent_public_activities.size == 0
+    return true if @user.recent_activities && @user.garmin_was_down
+    return false if @user.recent_activities.size == 0
     return true
   end
 end
