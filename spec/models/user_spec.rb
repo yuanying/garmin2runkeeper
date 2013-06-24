@@ -7,7 +7,7 @@ describe "User Model" do
   end
 
   context "have garmin username and password" do
-    let(:user) { User.new.tap { |user| user.garmin_id = 'yuanying'; user.garmin_password = 'kojiro' } }
+    let(:user) { User.new.tap { |user| user.garmin_id = 'g2runkeeper'; user.garmin_password = 'yuan-garmin' } }
 
     it 'should return recent activities' do
       user.recent_activities.should_not be_nil
