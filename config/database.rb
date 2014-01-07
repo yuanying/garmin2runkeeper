@@ -1,7 +1,7 @@
 
 # Connection.new takes host, port
-host = 'localhost'
-port = Mongo::Connection::DEFAULT_PORT
+host = ENV['MONGODB_HOST'] || 'localhost'
+port = ENV['MONGODB_PORT'] || Mongo::Connection::DEFAULT_PORT
 
 database_name = case Padrino.env
   when :development then 'garmin2runkeeper_development'
